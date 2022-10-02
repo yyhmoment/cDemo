@@ -94,51 +94,71 @@ void ShowStack(LinkStack *S)
     }
   }
 }
+/*计算栈中此时的元素个数*/
+int ShowStackLen(LinkStack *S)
+{
+  LinkStack *p = S;
+  int len = 0;
+  while (p != NULL)
+  {
+    p = p->next;
+    len++;
+  }
 
-/*十进制转换成任意进制数*/
+  return len;
+}
+
+/*十进制转换成2、8、16进制数*/
 void D_B(LinkStack *S, DataType x, DataType num)
 {
-  if (num == 2)
+  if (num == 2 || num == 8 || num == 16) /*非这三者就提醒错误*/
   {
-    while (x)
+    if (num == 2)
     {
-      S = Push(S, x % 2); /*余数入栈*/
-      x /= 2;             /*被除数data整除以2，得到新的被除数*/
+      while (x)
+      {
+        S = Push(S, x % 2); /*余数入栈*/
+        x /= 2;             /*被除数data整除以2，得到新的被除数*/
+      }
+      printf("转换后的二进制为：");
+      while (!EmptyStack(S))
+      {
+        S = Pop(S, &x); /*依次从栈中弹出每一个余数并输出*/
+        printf("%d", x);
+      }
     }
-    printf("转换后的二进制为：");
-    while (!EmptyStack(S))
+    else if (num == 8)
     {
-      S = Pop(S, &x); /*依次从栈中弹出每一个余数并输出*/
-      printf("%d", x);
+      while (x)
+      {
+        S = Push(S, x % 8); /*余数入栈*/
+        x /= 8;             /*被除数data整除以8，得到新的被除数*/
+      }
+      printf("转换后的八进制为：");
+      while (!EmptyStack(S))
+      {
+        S = Pop(S, &x); /*依次从栈中弹出每一个余数并输出*/
+        printf("%d", x);
+      }
+    }
+    else if (num == 16)
+    {
+      while (x)
+      {
+        S = Push(S, x % 16); /*余数入栈*/
+        x /= 16;             /*被除数data整除以16，得到新的被除数*/
+      }
+      printf("转换后的十六进制为：");
+      while (!EmptyStack(S))
+      {
+        S = Pop(S, &x); /*依次从栈中弹出每一个余数并输出*/
+        printf("%d", x);
+      }
     }
   }
-  else if (num == 8)
+  else
   {
-    while (x)
-    {
-      S = Push(S, x % 8); /*余数入栈*/
-      x /= 8;             /*被除数data整除以8，得到新的被除数*/
-    }
-    printf("转换后的八进制为：");
-    while (!EmptyStack(S))
-    {
-      S = Pop(S, &x); /*依次从栈中弹出每一个余数并输出*/
-      printf("%d", x);
-    }
-  }
-  else if (num == 16)
-  {
-    while (x)
-    {
-      S = Push(S, x % 16); /*余数入栈*/
-      x /= 16;             /*被除数data整除以16，得到新的被除数*/
-    }
-    printf("转换后的十六进制为：");
-    while (!EmptyStack(S))
-    {
-      S = Pop(S, &x); /*依次从栈中弹出每一个余数并输出*/
-      printf("%d", x);
-    }
+    printf("请重新输入进制数，只能为2进制、8进制、16进制！");
   }
 }
 
@@ -152,7 +172,7 @@ void MenuStack()
   printf("\n|           3-出栈操作                     |");
   printf("\n|           4-求栈顶元素                   |");
   printf("\n|           5-显示栈中元素                 |");
-  printf("\n|           6-10到n进制数转换              |");
+  printf("\n|           6-10到n进制数转换(n=2或8或16)  |");
   printf("\n|           0-返回                         |");
   printf("\n============================================");
   printf("\n请输入菜单号（0~6）：");
@@ -201,13 +221,20 @@ int main(int argc, char const *argv[])
       {
         printf("请输入要出栈的元素个数：");
         scanf("%d", &n);
-        printf("出栈的元素为：");
-        for (i = 0; i < n; i++)
+        if (n > ShowStackLen(S)) /*判断用户输入的出栈数是否大于栈中元素个数*/
         {
-          S = Pop(S, &x);
-          if (S != NULL)
+          printf("输入的出栈元素个数大于栈中元素个数，请重新输入！");
+        }
+        else
+        {
+          printf("出栈的元素为：");
+          for (i = 0; i < n; i++)
           {
-            printf("%5d", x);
+            S = Pop(S, &x);
+            if (S != NULL)
+            {
+              printf("%4d", x);
+            }
           }
         }
       }
