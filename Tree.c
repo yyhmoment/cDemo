@@ -156,7 +156,7 @@ int TreeDepth(BT *T)
   /*求二叉树深度*/
   int ldep = 0, rdep = 0; /*定义两个整型变量，用以存放左、右子树的深度*/
   if (T == NULL)
-    return;
+    return 0;
   else
   {
     ldep = TreeDepth(T->lchild); /*递归统计T的左子树深度*/
@@ -187,11 +187,12 @@ void MenuTree()
   printf("\n 请输入菜单号（0——9：）");
 }
 
-main()
+main(int argc, char const *argv[])
 {
   BT *T = NULL;
   char ch1, ch2, a;
   ch1 = 'y';
+  int aa = 0;
   while (ch1 == 'y' || ch1 == 'Y')
   {
     MenuTree();
@@ -206,47 +207,112 @@ main()
       printf("请输入根节点：");
       T = CreateBTree();
       printf("二叉树成功建立！");
+      int aa = 1;
       break;
     case '2':
       // 广义表表示法显示
-      printf("二叉树广义表表示法如下：");
-      ShowBTree(T);
+      if (aa == 1)
+      {
+        printf("二叉树广义表表示法如下：");
+        ShowBTree(T);
+      }
+      else
+      {
+        printf("请先建立一个二叉树！");
+        break;
+      }
       break;
     case '3':
       // 先序遍历
-      printf("二叉树的先序遍历序列为：");
-      PreOrder(T);
+      if (aa == 1)
+      {
+        printf("二叉树的先序遍历序列为：");
+        PreOrder(T);
+      }
+      else
+      {
+        printf("请先建立一个二叉树！");
+        break;
+      }
       break;
     case '4':
       // 中序遍历
-      printf("二叉树的中序遍历序列为：");
-      InOrder(T);
+      if (aa == 1)
+      {
+        printf("二叉树的中序遍历序列为：");
+        InOrder(T);
+      }
+      else
+      {
+        printf("请先建立一个二叉树！");
+        break;
+      }
       break;
     case '5':
       // 后序遍历
-      printf("二叉树的后序遍历序列为：");
-      PostOrder(T);
+      if (aa == 1)
+      {
+        printf("二叉树的后序遍历序列为：");
+        PostOrder(T);
+      }
+      else
+      {
+        printf("请先建立一个二叉树！");
+        break;
+      }
       break;
     case '6':
       // 层次遍历
-      printf("二叉树的层次遍历序列为：");
-      LevenOrder(T);
+      if (aa == 1)
+      {
+        printf("二叉树的层次遍历序列为：");
+        LevenOrder(T);
+      }
+      else
+      {
+        printf("请先建立一个二叉树！");
+        break;
+      }
       break;
     case '7':
       // 求叶子结点数目
-      count = 0;
-      Leafnum(T);
-      printf("该二叉树有%d个叶子。", count);
+      if (aa == 1)
+      {
+        count = 0;
+        Leafnum(T);
+        printf("该二叉树有%d个叶子。", count);
+      }
+      else
+      {
+        printf("请先建立一个二叉树！");
+        break;
+      }
       break;
     case '8':
       // 求二叉树总结点数目
-      count = 0;
-      Nodenum(T);
-      printf("该二叉树共有%d个结点。", count);
+      if (aa == 1)
+      {
+        count = 0;
+        Nodenum(T);
+        printf("该二叉树共有%d个结点。", count);
+      }
+      else
+      {
+        printf("请先建立一个二叉树！");
+        break;
+      }
       break;
     case '9':
       // 求树深度
-      printf("该二叉树的深度是%d。", TreeDepth(T));
+      if (aa == 1)
+      {
+        printf("该二叉树的深度是%d。", TreeDepth(T));
+      }
+      else
+      {
+        printf("请先建立一个二叉树！");
+        break;
+      }
       break;
     case '0':
       ch1 = 'n';
@@ -265,4 +331,5 @@ main()
       }
     }
   }
+  return 0;
 }
